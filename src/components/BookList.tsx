@@ -2,7 +2,7 @@
 
 import { FormEventHandler, useEffect, useState } from "react";
 import { books as booksApi } from '@/data/db'
-import { TBook, TBookNew } from "@/types";
+import { TBook, TBookNew, TBookUpdate } from "@/types";
 import { Book } from "./Book";
 
 export const BookList = () => {
@@ -17,10 +17,10 @@ export const BookList = () => {
   // get newest data on client after initial render
   useEffect(() => {
     fetch(`/api/books`)
-    .then(res => res.json())
-    .then(booksApiNew => { 
-      setBooks(booksApiNew)
-    })
+      .then(res => res.json())
+      .then(booksApiNew => {
+        setBooks(booksApiNew)
+      })
   }, [])
 
   const deleteBook = (bookId: string) => {
@@ -31,6 +31,19 @@ export const BookList = () => {
         setBooks(books.filter((book) => book._id !== bookId));
       })
   };
+
+  const updateBook = (bookId: string, bookUpdate: TBookUpdate) => {
+    fetch(`/api/books/${bookId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bookUpdate),
+    })
+      .then((res) => res.json())
+      .then((bookUpdatedApi) => {
+        console.log({ bookUpdatedApi });
+        setBooks(books.map(book => book._id === bookId ? bookUpdatedApi : book))
+      });
+  }
 
   const addBook: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -49,7 +62,13 @@ export const BookList = () => {
   };
 
   // render book list
-  const jsxBooks = books.map((book) => <Book key={book._id} book={book} deleteBook={deleteBook} />);
+  const jsxBooks = books.map((book) => <Book
+    key={book._id}
+    book={book}
+    updateBook={updateBook}
+    deleteBook={deleteBook}
+
+  />);
 
   // book page layout
   return (
