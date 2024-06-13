@@ -2,12 +2,14 @@
 
 import { FormEventHandler, useEffect, useState } from "react";
 import { books as booksApi } from '@/data/db'
+import { TBook, TBookNew } from "@/types";
+import { Book } from "./Book";
 
 export const BookList = () => {
 
   // use initial API books data for initial server side rendering
-  const [books, setBooks] = useState(booksApi || []);
-  const [bookNew, setBookNew] = useState({
+  const [books, setBooks] = useState<Array<TBook>>(booksApi || []);
+  const [bookNew, setBookNew] = useState<TBookNew>({
     title: "",
     author: ""
   })
@@ -21,14 +23,14 @@ export const BookList = () => {
     })
   }, [])
 
-  // render list
-  const jsxBooks = books.map((book) => (
-    <div key={book._id} className="bg-red-900 text-white rounded-xl border-2 p-2 shadow-sm">
-      <div>{book.title}</div>
-      <div className="text-sm">{book.author}</div>
-      <button onClick={() => deleteBook(book._id)}>X</button>
-    </div>
-  ));
+  const deleteBook = (bookId: string) => {
+    fetch(`/api/books/${bookId}`, { method: "DELETE" })
+      .then(res => res.json())
+      .then(bookDeleted => {
+        console.log({ bookDeleted })
+        setBooks(books.filter((book) => book._id !== bookId));
+      })
+  };
 
   const addBook: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -46,15 +48,10 @@ export const BookList = () => {
       });
   };
 
-  const deleteBook = (bookId: string) => {
-    fetch(`/api/books/${bookId}`, { method: "DELETE" })
-    .then(res => res.json())
-    .then(bookDeleted => {
-      console.log({ bookDeleted})
-      setBooks(books.filter((book) => book._id !== bookId));
-    })
-  };
+  // render book list
+  const jsxBooks = books.map((book) => <Book key={book._id} book={book} deleteBook={deleteBook} />);
 
+  // book page layout
   return (
     <div>
       <h1 className="text-2xl uppercase">Book List</h1>
