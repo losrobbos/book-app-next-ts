@@ -1,0 +1,37 @@
+@API_URL = http://localhost:3000
+
+### Test route
+GET {{API_URL}}/api/hello
+
+### Test POST route
+POST {{API_URL}}/api/hello
+Content-Type: application/json
+
+{
+  "isAdmin": true
+}
+
+### Book Routes
+
+### Get Books All 
+GET {{API_URL}}/api/books
+
+### Book Delete
+DELETE {{API_URL}}/api/books/b1
+
+### Book Create
+POST {{API_URL}}/api/books
+Content-Type: application/json
+
+{
+  "title": "Honolulu", 
+  "author": "Lionel Messi"
+}
+
+### Book Update
+PATCH {{API_URL}}/api/books/1718296655064
+Content-Type: application/json
+
+{
+  "author": "Lorenzo Bertolini"
+}
