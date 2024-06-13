@@ -1,6 +1,6 @@
 "use client"
 
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler, useEffect, useMemo, useState } from "react";
 import { books as booksApi } from '@/data/db'
 import { TBook, TBookNew, TBookUpdate } from "@/types";
 import { Book } from "./Book";
@@ -13,6 +13,7 @@ export const BookList = () => {
     title: "",
     author: ""
   })
+  const [search, setSearch] = useState("")
   const [error, setError] = useState("")
 
   // get newest data on client after initial render
@@ -23,6 +24,11 @@ export const BookList = () => {
         setBooks(booksApiNew)
       })
   }, [])
+
+  const booksFiltered = useMemo(() => {
+    if(!search) return books;
+    return books.filter(book => book.title.toLowerCase().includes(search.toLowerCase()))
+  }, [search])
 
   const deleteBook = (bookId: string) => {
     fetch(`/api/books/${bookId}`, { method: "DELETE" })
@@ -49,7 +55,7 @@ export const BookList = () => {
   const addBook: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
 
-    if(!bookNew.title || !bookNew.author) {
+    if (!bookNew.title || !bookNew.author) {
       return setError("Please provide title & author, buddy!")
     }
 
@@ -68,7 +74,7 @@ export const BookList = () => {
   };
 
   // render book list
-  const jsxBooks = books.map((book) => <Book
+  const jsxBooks = booksFiltered.map((book) => <Book
     key={book._id}
     book={book}
     updateBook={updateBook}
@@ -80,7 +86,16 @@ export const BookList = () => {
   return (
     <div>
       <h1 className="text-2xl uppercase">Book List</h1>
-      <div className="py-4 flex gap-3 flex-wrap">{jsxBooks}</div>
+      {/* SEARCH BOX */}
+      <div className="py-2">
+        <input type="text" className="rounded-md w-80 p-1"
+          placeholder="Search..."
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+      {/* BOOK LIST */}
+      <div className="py-2 flex gap-3 flex-wrap">{jsxBooks}</div>
+      {/* BOOK ADD FORM */}
       <form className="flex gap-3" onSubmit={addBook}>
         <input
           type="text"
