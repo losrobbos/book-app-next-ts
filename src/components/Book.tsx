@@ -39,7 +39,11 @@ export const Book = ({ book, updateBook, deleteBook }: Props) => {
         onChange={(e) => setBookUpdate({ ...bookUpdate, author: e.target.value })}
       />
       <div className="flex gap-1 justify-between">
-        <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
+        {/* on cancel => restore old book state */}
+        <button type="button" onClick={() => {
+          setEditMode(false);
+          setBookUpdate(book)
+        }}>Cancel</button>
         <button type="submit">Save</button>
       </div>
     </form>

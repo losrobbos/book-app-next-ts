@@ -13,6 +13,7 @@ export const BookList = () => {
     title: "",
     author: ""
   })
+  const [error, setError] = useState("")
 
   // get newest data on client after initial render
   useEffect(() => {
@@ -48,6 +49,10 @@ export const BookList = () => {
   const addBook: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
 
+    if(!bookNew.title || !bookNew.author) {
+      return setError("Please provide title & author, buddy!")
+    }
+
     fetch("/api/books", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -58,6 +63,7 @@ export const BookList = () => {
         console.log({ bookNewApi });
         setBooks([...books, bookNewApi]);
         setBookNew({ title: "", author: "" })
+        setError("")
       });
   };
 
@@ -92,6 +98,7 @@ export const BookList = () => {
         />
         <button type="submit" className="rounded-md bg-red-900 p-3 text-white hover:text-red-300">Add Book</button>
       </form>
+      <div className="text-red-700 font-bold">{error}</div>
     </div>
   );
 };

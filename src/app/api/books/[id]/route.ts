@@ -34,14 +34,23 @@ export async function DELETE(req: Request, { params }: { params: Params }) {
 
 export async function PATCH(req: Request, { params }: { params: Params }) {
   const body = await req.json();
-  const { id } = params
+  const { id } = params;
 
-  const bookFound = books.find(book => book._id === id)
+  // validation
+  if (!body.title && !body.author) {
+    return Response.json(
+      { error: "Please provide title or author" },
+      { status: 400 }
+    );
+  }
 
-  if(!bookFound) return NextResponse.json({ error: "Book does not exist" }, { status: 404 })
+  const bookFound = books.find((book) => book._id === id);
+
+  if (!bookFound)
+    return NextResponse.json({ error: "Book does not exist" }, { status: 404 });
 
   // update book props
-  Object.assign(bookFound, body)
+  Object.assign(bookFound, body);
 
-  return Response.json(bookFound)
+  return Response.json(bookFound);
 }
