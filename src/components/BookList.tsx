@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import { books as booksApi } from '@/data/db'
 
 export const BookList = () => {
@@ -17,7 +17,6 @@ export const BookList = () => {
     fetch(`/api/books`)
     .then(res => res.json())
     .then(booksApiNew => { 
-      console.log(booksApiNew)
       setBooks(booksApiNew)
     })
   }, [])
@@ -31,11 +30,8 @@ export const BookList = () => {
     </div>
   ));
 
-  const addBook = () => {
-    const bookNew = {
-      title: "Random Title" + Date.now(),
-      author: "Randy" + Date.now(),
-    };
+  const addBook: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
 
     fetch("/api/books", {
       method: "POST",
@@ -46,11 +42,11 @@ export const BookList = () => {
       .then((bookNewApi) => {
         console.log({ bookNewApi });
         setBooks([...books, bookNewApi]);
+        setBookNew({ title: "", author: "" })
       });
   };
 
-  const deleteBook = (bookId) => {
-    console.log("Deleting book: ", bookId)
+  const deleteBook = (bookId: string) => {
     fetch(`/api/books/${bookId}`, { method: "DELETE" })
     .then(res => res.json())
     .then(bookDeleted => {
@@ -63,7 +59,23 @@ export const BookList = () => {
     <div>
       <h1 className="text-2xl">Book List</h1>
       <div className="py-4 flex gap-3 flex-wrap">{jsxBooks}</div>
-      <button onClick={addBook}>Add</button>
+      <form className="flex gap-3" onSubmit={addBook}>
+        <input
+          type="text"
+          className="rounded w-40 p-3"
+          placeholder="Title..."
+          value={bookNew.title}
+          onChange={(e) => setBookNew({ ...bookNew, title: e.target.value })}
+        />
+        <input
+          type="text"
+          className="rounded w-40 p-3"
+          placeholder="Author..."
+          value={bookNew.author}
+          onChange={(e) => setBookNew({ ...bookNew, author: e.target.value })}
+        />
+        <button type="submit">Add Book</button>
+      </form>
     </div>
   );
 };
