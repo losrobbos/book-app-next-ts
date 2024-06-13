@@ -18,9 +18,11 @@ export const BookList = () => {
 
   // get newest data on client after initial render
   useEffect(() => {
+    
     fetch(`/api/books`)
       .then(res => res.json())
       .then(booksApiNew => {
+        console.log(booksApiNew)
         setBooks(booksApiNew)
       })
   }, [])
@@ -28,7 +30,7 @@ export const BookList = () => {
   const booksFiltered = useMemo(() => {
     if(!search) return books;
     return books.filter(book => book.title.toLowerCase().includes(search.toLowerCase()))
-  }, [search])
+  }, [books, search])
 
   const deleteBook = (bookId: string) => {
     fetch(`/api/books/${bookId}`, { method: "DELETE" })
