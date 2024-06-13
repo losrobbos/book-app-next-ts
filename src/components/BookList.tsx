@@ -23,7 +23,7 @@ export const BookList = () => {
 
   // render list
   const jsxBooks = books.map((book) => (
-    <div key={book._id} className="border-red-900 rounded-xl border-2 p-2">
+    <div key={book._id} className="bg-red-900 text-white rounded-xl border-2 p-2 shadow-sm">
       <div>{book.title}</div>
       <div className="text-sm">{book.author}</div>
       <button onClick={() => deleteBook(book._id)}>X</button>
@@ -57,24 +57,24 @@ export const BookList = () => {
 
   return (
     <div>
-      <h1 className="text-2xl">Book List</h1>
+      <h1 className="text-2xl uppercase">Book List</h1>
       <div className="py-4 flex gap-3 flex-wrap">{jsxBooks}</div>
       <form className="flex gap-3" onSubmit={addBook}>
         <input
           type="text"
-          className="rounded w-40 p-3"
+          className="rounded-md w-40 p-3"
           placeholder="Title..."
           value={bookNew.title}
           onChange={(e) => setBookNew({ ...bookNew, title: e.target.value })}
         />
         <input
           type="text"
-          className="rounded w-40 p-3"
+          className="rounded-md w-40 p-3"
           placeholder="Author..."
           value={bookNew.author}
           onChange={(e) => setBookNew({ ...bookNew, author: e.target.value })}
         />
-        <button type="submit">Add Book</button>
+        <button type="submit" className="rounded-md bg-red-900 p-3 text-white hover:text-red-300">Add Book</button>
       </form>
     </div>
   );
