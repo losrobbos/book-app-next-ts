@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Demo
 
-(will follow...)
+https://book-app-next-ts.vercel.app
 
 ## Getting Started
 

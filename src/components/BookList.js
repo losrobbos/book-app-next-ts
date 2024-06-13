@@ -7,12 +7,19 @@ export const BookList = () => {
 
   // use initial API books data for initial server side rendering
   const [books, setBooks] = useState(booksApi || []);
+  const [bookNew, setBookNew] = useState({
+    title: "",
+    author: ""
+  })
 
   // get newest data on client after initial render
   useEffect(() => {
     fetch(`/api/books`)
     .then(res => res.json())
-    .then(booksApi => setBooks(booksApi))
+    .then(booksApiNew => { 
+      console.log(booksApiNew)
+      setBooks(booksApiNew)
+    })
   }, [])
 
   // render list
@@ -43,7 +50,13 @@ export const BookList = () => {
   };
 
   const deleteBook = (bookId) => {
-    setBooks(books.filter((book) => book._id !== bookId));
+    console.log("Deleting book: ", bookId)
+    fetch(`/api/books/${bookId}`, { method: "DELETE" })
+    .then(res => res.json())
+    .then(bookDeleted => {
+      console.log({ bookDeleted})
+      setBooks(books.filter((book) => book._id !== bookId));
+    })
   };
 
   return (
