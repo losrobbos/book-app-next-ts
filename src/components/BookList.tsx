@@ -1,14 +1,14 @@
 "use client"
 
 import { FormEventHandler, useEffect, useMemo, useState } from "react";
-import { books as booksApi } from '@/data/db'
+import { db } from '@/data/db'
 import { TBook, TBookNew, TBookUpdate } from "@/types";
 import { Book } from "./Book";
 
 export const BookList = () => {
 
   // use initial API books data for initial server side rendering
-  const [books, setBooks] = useState<Array<TBook>>(booksApi || []);
+  const [books, setBooks] = useState<Array<TBook>>(db.books || []);
   const [bookNew, setBookNew] = useState<TBookNew>({
     title: "",
     author: ""

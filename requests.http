@@ -11,7 +11,31 @@ Content-Type: application/json
   "isAdmin": true
 }
 
-### Book Routes
+# Auth Routes
+
+### Login
+POST {{API_URL}}/api/login
+Content-Type:  application/json
+
+{
+  "email": "rob@rob.rob" ,
+  "pw": "rob123"
+}
+
+### Signup
+POST {{API_URL}}/api/signup
+Content-Type:  application/json
+
+{
+  "email": "rib@rib.rib" ,
+  "pw": "rib123"
+}
+
+### Users 
+GET {{API_URL}}/api/users
+
+
+# Book Routes
 
 ### Get Books All 
 GET {{API_URL}}/api/books
