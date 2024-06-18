@@ -1,6 +1,10 @@
 
 // To handle a GET request to /api
-export async function GET() {
+export async function GET(req: Request) {
+  console.log(
+    "X-User: ",
+    req.headers.get(process.env.JWT_INTERNAL_HEADER_NAME as string)
+  );
   // Do whatever you want
   return Response.json({ message: "Hello World" }, { status: 200 });
 }

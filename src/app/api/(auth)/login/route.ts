@@ -1,4 +1,5 @@
 import { db } from "@/data/db";
+import jwt from "jsonwebtoken";
 
 export const POST = async (req: Request) => {
   const body = await req.json();
@@ -21,5 +22,8 @@ export const POST = async (req: Request) => {
   }
   // extract pw / not public !
   const { pw, ...userPublic } = { ...userFound };
-  return Response.json(userPublic);
+  // create token
+  const token = jwt.sign(userPublic, process.env.JWT_SECRET as string, { expiresIn: "1d" })
+  
+  return Response.json({ token, ...userPublic});
 };

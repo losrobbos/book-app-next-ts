@@ -1,7 +1,9 @@
 @API_URL = http://localhost:3000
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiJ1MSIsInVzZXJuYW1lIjoicm9iYm9zIiwiZW1haWwiOiJyb2JAcm9iLnJvYiIsImlhdCI6MTcxODczNDYzNywiZXhwIjoxNzE4ODIxMDM3fQ.sAYNQZyCdCt4wQF_sQSaqAa5fgRApNpsV05_9PG0cJ0
 
 ### Test route
 GET {{API_URL}}/api/hello
+Authorization: {{TOKEN}}
 
 ### Test POST route
 POST {{API_URL}}/api/hello
