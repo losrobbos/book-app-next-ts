@@ -4,18 +4,16 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 https://book-app-next-ts.vercel.app
 
-## Getting Started
+## Concepts
 
-First, run the development server:
+- Routing with App router
+- API Routes: Static Routes, Dynamic Routes, Omit Route Path Segments
+- Authentication using Auth Routes and JWT / Jose
+
+## Getting Started
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 ## Deploy on Vercel
