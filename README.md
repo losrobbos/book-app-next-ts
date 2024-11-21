@@ -8,6 +8,7 @@ https://book-app-next-ts.vercel.app
 
 - Routing with App router
 - API Routes: Static Routes, Dynamic Routes, Omit Route Path Segments
+  - Shared common data object in all routes (=fake database)  
 - Authentication using Auth Routes and JWT / Jose
 
 ## Getting Started
